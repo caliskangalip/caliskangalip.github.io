@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mağazaya Git</title>
+  <title>Open Store</title>
   <meta name="color-scheme" content="light dark" />
   <style>
     :root{
@@ -65,26 +65,27 @@
     }
 
     .brand{
-      display:flex; align-items:center; gap:12px;
+      display:flex;
+      align-items:center;
+      gap:12px;
       min-width: 240px;
     }
-    .badge img{
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-  display: block;
-}
 
     .badge{
-        width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: linear-gradient(135deg,
-    rgba(255,255,255,.22),
-    rgba(255,255,255,.06)
-  );
-}
-
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    .badge img{
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      display:block;
+    }
 
     h1{
       font-size: 18px;
@@ -144,13 +145,6 @@
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); }
     .btn:active{ transform: translateY(0px) scale(.99); }
 
-    .icon img{
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  display: block;
-}
-
     .icon{
       width:44px; height:44px;
       border-radius: 12px;
@@ -158,14 +152,21 @@
       background: rgba(0,0,0,.12);
       border:1px solid var(--border);
       flex: 0 0 auto;
+      overflow:hidden;
     }
     @media (prefers-color-scheme: light){
       .icon{ background: rgba(255,255,255,.8); }
     }
-    .icon svg{ width:26px; height:26px; }
+    .icon img{
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      display: block;
+    }
 
     .btn .t{
-      display:flex; flex-direction:column;
+      display:flex;
+      flex-direction:column;
       gap:2px;
       min-width: 0;
     }
@@ -194,7 +195,6 @@
 
     .hidden{ display:none !important; }
 
-    /* küçük yükleniyor animasyonu */
     .spinner{
       width:16px; height:16px;
       border:2px solid rgba(255,255,255,.25);
@@ -214,68 +214,139 @@
       <div class="top">
         <div class="brand">
           <div class="badge">
-  <img src="logo.png" alt="Uygulama logosu" />
-</div>
+            <img src="logo.png" alt="App logo" id="logoAlt" />
+          </div>
 
           <div>
-            <h1>Mağazaya yönlendiriyorum…</h1>
-            <p class="muted" id="status">Cihaz türü kontrol ediliyor.</p>
+            <h1 id="titleText">Redirecting to the store…</h1>
+            <p class="muted" id="status">Detecting your device.</p>
           </div>
         </div>
 
         <div class="pill" id="livePill">
           <span class="dot"></span>
-          <span id="pillText">Algılanıyor</span>
+          <span id="pillText">Detecting</span>
           <span class="spinner" aria-hidden="true"></span>
         </div>
       </div>
 
       <div class="content">
         <div id="chooser" class="hidden">
-          <p class="muted" style="margin:0 0 10px;">Hangi mağazayı açmak istersin?</p>
+          <p class="muted" id="chooseText" style="margin:0 0 10px;">Which store would you like to open?</p>
 
           <div class="grid">
             <a class="btn" id="playBtn" href="#" rel="noopener">
               <div class="icon" aria-hidden="true">
-  <img src="/play_icon.png" alt="Google Play" />
-</div>
-
+                <img src="play_icon.png" alt="Google Play" />
+              </div>
               <div class="t">
                 <strong>Google Play</strong>
-                <span>Android cihazlar için</span>
+                <span id="playSub">For Android devices</span>
               </div>
             </a>
 
             <a class="btn" id="appStoreBtn" href="#" rel="noopener">
               <div class="icon" aria-hidden="true">
-  <img src="/appstore_icon.png" alt="App Store" />
-</div>
-
+                <img src="appstore_icon.png" alt="App Store" />
+              </div>
               <div class="t">
                 <strong>App Store</strong>
-                <span>iPhone / iPad için</span>
+                <span id="appSub">For iPhone / iPad</span>
               </div>
             </a>
           </div>
 
           <div class="center">
-            <a class="smalllink" href="/" id="homeLink">Ana sayfaya dön</a>
-            <a class="smalllink" href="#" id="noRedirect">Otomatik yönlendirmeyi kapat</a>
+            <a class="smalllink" href="/" id="homeLink">Back to home</a>
+            <a class="smalllink" href="#" id="noRedirect">Disable auto-redirect</a>
           </div>
         </div>
 
         <div id="hint" class="muted" style="margin-top:0;">
-          Eğer yönlendirme olmazsa, aşağıdaki seçenekler görünecek.
+          If redirection doesn’t happen, you’ll see store options below.
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // KENDİ LINKLERİNLE DEĞİŞTİR
+    // TODO: Replace with your real App Store URL when ready
     const PLAY_URL = "https://play.google.com/store/apps/details?id=com.galip.asana";
     const APPSTORE_URL = "https://apps.apple.com/app/idYOUR_APP_ID";
 
+    // --- i18n (EN default, TR supported) ---
+    const I18N = {
+      en: {
+        htmlLang: "en",
+        title: "Open Store",
+        logoAlt: "App logo",
+        titleText: "Redirecting to the store…",
+        statusDetecting: "Detecting your device.",
+        pillDetecting: "Detecting",
+        pillRedirecting: "Redirecting",
+        pillChoice: "Choice",
+        chooseText: "Which store would you like to open?",
+        playSub: "For Android devices",
+        appSub: "For iPhone / iPad",
+        homeLink: "Back to home",
+        noRedirect: "Disable auto-redirect",
+        hint: "If redirection doesn’t happen, you’ll see store options below.",
+        msgAutoOff: "Auto-redirect disabled. Please choose a store.",
+        msgChoose: "Please choose a store.",
+        msgDesktop: "Desktop device detected. Please choose a store.",
+        toPlay: "Redirecting to Google Play…",
+        toAppStore: "Redirecting to the App Store…"
+      },
+      tr: {
+        htmlLang: "tr",
+        title: "Mağazaya Git",
+        logoAlt: "Uygulama logosu",
+        titleText: "Mağazaya yönlendiriyorum…",
+        statusDetecting: "Cihaz türü kontrol ediliyor.",
+        pillDetecting: "Algılanıyor",
+        pillRedirecting: "Yönlendiriliyor",
+        pillChoice: "Seçim",
+        chooseText: "Hangi mağazayı açmak istersin?",
+        playSub: "Android cihazlar için",
+        appSub: "iPhone / iPad için",
+        homeLink: "Ana sayfaya dön",
+        noRedirect: "Otomatik yönlendirmeyi kapat",
+        hint: "Eğer yönlendirme olmazsa, aşağıdaki seçenekler görünecek.",
+        msgAutoOff: "Otomatik yönlendirme kapatıldı. Mağaza seç.",
+        msgChoose: "Mağaza seç.",
+        msgDesktop: "Masaüstü cihaz algılandı. Mağaza seç.",
+        toPlay: "Google Play'e yönlendiriliyor…",
+        toAppStore: "App Store'a yönlendiriliyor…"
+      }
+    };
+
+    function pickLocale() {
+      const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "en"];
+      for (const l of langs) {
+        const base = String(l).toLowerCase().split("-")[0];
+        if (I18N[base]) return base;
+      }
+      return "en";
+    }
+
+    const locale = pickLocale();
+    const T = I18N[locale];
+
+    // apply static texts
+    document.documentElement.lang = T.htmlLang;
+    document.title = T.title;
+    document.getElementById("logoAlt").alt = T.logoAlt;
+    document.getElementById("titleText").textContent = T.titleText;
+    document.getElementById("status").textContent = T.statusDetecting;
+    document.getElementById("pillText").textContent = T.pillDetecting;
+    document.getElementById("chooseText").textContent = T.chooseText;
+    document.getElementById("playSub").textContent = T.playSub;
+    document.getElementById("appSub").textContent = T.appSub;
+    document.getElementById("homeLink").textContent = T.homeLink;
+    document.getElementById("noRedirect").textContent = T.noRedirect;
+    document.getElementById("hint").textContent = T.hint;
+
+    // --- behavior ---
     const statusEl = document.getElementById("status");
     const chooserEl = document.getElementById("chooser");
     const pillText = document.getElementById("pillText");
@@ -288,31 +359,32 @@
     appStoreBtn.href = APPSTORE_URL;
 
     const params = new URLSearchParams(location.search);
-    let auto = params.get("auto");
-    // default: auto yönlendir
+    const auto = params.get("auto");
     let allowAuto = (auto !== "0");
 
     noRedirect.addEventListener("click", (e) => {
       e.preventDefault();
       allowAuto = false;
-      showChooser("Otomatik yönlendirme kapatıldı. Mağaza seç.");
+      showChooser(T.msgAutoOff);
     });
 
     function showChooser(msg){
       statusEl.textContent = msg;
-      pillText.textContent = "Seçim";
+      pillText.textContent = T.pillChoice;
       chooserEl.classList.remove("hidden");
-      // spinnerı kaldır
+
+      // remove spinner once
       livePill.querySelector(".spinner")?.remove();
-      // dot'u gri yap
-      livePill.querySelector(".dot").style.background = "rgba(148,163,184,.9)";
-      livePill.querySelector(".dot").style.boxShadow = "0 0 0 3px rgba(148,163,184,.18)";
+
+      // set dot to gray
+      const dot = livePill.querySelector(".dot");
+      dot.style.background = "rgba(148,163,184,.9)";
+      dot.style.boxShadow = "0 0 0 3px rgba(148,163,184,.18)";
     }
 
-    function redirect(url, label) {
-      statusEl.textContent = label + " yönlendiriliyor…";
-      pillText.textContent = "Yönlendiriliyor";
-      // küçük gecikme: kullanıcı “ne oluyor” görsün
+    function redirect(url, msg) {
+      statusEl.textContent = msg;
+      pillText.textContent = T.pillRedirecting;
       setTimeout(() => window.location.replace(url), 250);
     }
 
@@ -322,13 +394,13 @@
     const isAppleTouch = (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
     if (!allowAuto) {
-      showChooser("Mağaza seç.");
+      showChooser(T.msgChoose);
     } else if (isAndroid) {
-      redirect(PLAY_URL, "Google Play'e");
+      redirect(PLAY_URL, T.toPlay);
     } else if (isIOS || isAppleTouch) {
-      redirect(APPSTORE_URL, "App Store'a");
+      redirect(APPSTORE_URL, T.toAppStore);
     } else {
-      showChooser("Masaüstü cihaz algılandı. Mağaza seç.");
+      showChooser(T.msgDesktop);
     }
   </script>
 </body>
