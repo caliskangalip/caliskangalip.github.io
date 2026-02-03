@@ -68,14 +68,20 @@
       display:flex; align-items:center; gap:12px;
       min-width: 240px;
     }
+    .badge img{
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
     .badge{
-      width:44px; height:44px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.10);
-      border:1px solid var(--border);
-      display:grid; place-items:center;
-    }
-    .badge svg{ width:22px; height:22px; opacity:.9; }
+  background: linear-gradient(135deg,
+    rgba(255,255,255,.22),
+    rgba(255,255,255,.06)
+  );
+}
+
 
     h1{
       font-size: 18px;
