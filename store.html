@@ -135,6 +135,13 @@
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18); }
     .btn:active{ transform: translateY(0px) scale(.99); }
 
+    .icon img{
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+}
+
     .icon{
       width:44px; height:44px;
       border-radius: 12px;
@@ -224,12 +231,9 @@
           <div class="grid">
             <a class="btn" id="playBtn" href="#" rel="noopener">
               <div class="icon" aria-hidden="true">
-                <!-- Google Play üçgeni (basit SVG) -->
-                <svg viewBox="0 0 64 64">
-                  <path d="M10 8v48c0 2.2 2.4 3.5 4.2 2.3l36-24c1.6-1.1 1.6-3.5 0-4.6l-36-24C12.4 4.5 10 5.8 10 8Z" fill="currentColor" opacity=".9"/>
-                  <path d="M18 16l22 16-22 16V16Z" fill="none" stroke="currentColor" stroke-width="2" opacity=".35"/>
-                </svg>
-              </div>
+  <img src="/play_icon.png" alt="Google Play" />
+</div>
+
               <div class="t">
                 <strong>Google Play</strong>
                 <span>Android cihazlar için</span>
@@ -238,14 +242,9 @@
 
             <a class="btn" id="appStoreBtn" href="#" rel="noopener">
               <div class="icon" aria-hidden="true">
-                <!-- App Store A ikonu (basit) -->
-                <svg viewBox="0 0 64 64" fill="none">
-                  <path d="M25 40h14" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-                  <path d="M22 46l20-34" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-                  <path d="M42 46L28 22" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-                  <path d="M18 46h28" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" opacity=".55"/>
-                </svg>
-              </div>
+  <img src="/appstore_icon.png" alt="App Store" />
+</div>
+
               <div class="t">
                 <strong>App Store</strong>
                 <span>iPhone / iPad için</span>
