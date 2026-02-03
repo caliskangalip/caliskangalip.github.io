@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mağazaya Git</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .box { max-width: 520px; margin: 0 auto; border: 1px solid #ddd; border-radius: 12px; padding: 20px; }
+    button, a.btn { display: block; width: 100%; padding: 12px 14px; margin: 10px 0; border-radius: 10px; text-align: center; text-decoration: none; }
+    a.btn { border: 1px solid #ccc; color: #111; }
+    .muted { color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Mağazaya yönlendiriyorum…</h1>
+    <p class="muted" id="status">Cihaz türü kontrol ediliyor.</p>
+
+    <div id="chooser" style="display:none;">
+      <p>Hangi mağazayı açmak istersin?</p>
+      <a class="btn" id="playBtn" href="#" rel="noopener">Google Play</a>
+      <a class="btn" id="appStoreBtn" href="#" rel="noopener">App Store</a>
+    </div>
+  </div>
+
+  <script>
+    const PLAY_URL = "https://play.google.com/store/apps/details?id=com.galip.asana";
+    const APPSTORE_URL = "https://apps.apple.com/app/idYOUR_APP_ID";
+
+    const statusEl = document.getElementById("status");
+    const chooserEl = document.getElementById("chooser");
+    const playBtn = document.getElementById("playBtn");
+    const appStoreBtn = document.getElementById("appStoreBtn");
+
+    playBtn.href = PLAY_URL;
+    appStoreBtn.href = APPSTORE_URL;
+
+    // Basit ve pratik tespit
+    const ua = navigator.userAgent || "";
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+    // Bazı iPad'ler masaüstü gibi görünebilir; ek kontrol:
+    const isAppleTouch = (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    function redirect(url, label) {
+      statusEl.textContent = label + " yönlendiriliyor…";
+      window.location.replace(url);
+    }
+
+    if (isAndroid) {
+      redirect(PLAY_URL, "Google Play'e");
+    } else if (isIOS || isAppleTouch) {
+      redirect(APPSTORE_URL, "App Store'a");
+    } else {
+      statusEl.textContent = "Masaüstü cihaz algılandı.";
+      chooserEl.style.display = "block";
+    }
+  </script>
+</body>
+</html>
